@@ -20,6 +20,8 @@ ostream& XM_CALLCONV operator << (ostream& os, FXMVECTOR v)
 
 int main()
 {
+    XMVECTOR test = XMVectorZero();
+
     cout.setf(ios_base::boolalpha);
 
     // Check support for SSE2 (Pentium4, AMD K8, and above).
