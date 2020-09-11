@@ -18,54 +18,54 @@
     <ClCompile Include="InitDirect3DApp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dx12\Common\d3dApp.cpp">
+    <ClCompile Include="..\Common\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dx12\Common\Camera.cpp">
+    <ClCompile Include="..\Common\d3dApp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dx12\Common\d3dUtil.cpp">
+    <ClCompile Include="..\Common\d3dUtil.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dx12\Common\DDSTextureLoader.cpp">
+    <ClCompile Include="..\Common\DDSTextureLoader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dx12\Common\GameTimer.cpp">
+    <ClCompile Include="..\Common\GameTimer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dx12\Common\GeometryGenerator.cpp">
+    <ClCompile Include="..\Common\GeometryGenerator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dx12\Common\MathHelper.cpp">
+    <ClCompile Include="..\Common\MathHelper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\dx12\Common\d3dApp.h">
+    <ClInclude Include="..\Common\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dx12\Common\Camera.h">
+    <ClInclude Include="..\Common\d3dApp.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dx12\Common\d3dUtil.h">
+    <ClInclude Include="..\Common\d3dUtil.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dx12\Common\d3dx12.h">
+    <ClInclude Include="..\Common\d3dx12.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dx12\Common\DDSTextureLoader.h">
+    <ClInclude Include="..\Common\DDSTextureLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dx12\Common\GameTimer.h">
+    <ClInclude Include="..\Common\GameTimer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dx12\Common\GeometryGenerator.h">
+    <ClInclude Include="..\Common\GeometryGenerator.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dx12\Common\MathHelper.h">
+    <ClInclude Include="..\Common\MathHelper.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dx12\Common\UploadBuffer.h">
+    <ClInclude Include="..\Common\UploadBuffer.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

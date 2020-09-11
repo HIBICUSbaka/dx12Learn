@@ -4,10 +4,10 @@
 // Hold down '1' key to view scene in wireframe mode.
 //***************************************************************************************
 
-#include "../../dx12/Common/d3dApp.h"
-#include "../../dx12/Common/MathHelper.h"
-#include "../../dx12/Common/UploadBuffer.h"
-#include "../../dx12/Common/GeometryGenerator.h"
+#include "../Common/d3dApp.h"
+#include "../Common/MathHelper.h"
+#include "../Common/UploadBuffer.h"
+#include "../Common/GeometryGenerator.h"
 #include "FrameResource.h"
 #include "Waves.h"
 
