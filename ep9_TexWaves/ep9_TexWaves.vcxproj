@@ -24,6 +24,7 @@
     <ProjectGuid>{9e64ad89-cca0-4dd1-8bc0-5df150badaa7}</ProjectGuid>
     <RootNamespace>ep9TexWaves</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ep09_TexWaves</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

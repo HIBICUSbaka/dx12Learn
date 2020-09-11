@@ -24,6 +24,7 @@
     <ProjectGuid>{6a938b9e-2abf-44a2-bc47-e16d8095b348}</ProjectGuid>
     <RootNamespace>ep9Crate</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ep09_Crate</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
