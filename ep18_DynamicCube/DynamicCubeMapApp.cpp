@@ -2,11 +2,11 @@
 // DynamicCubeMapApp.cpp by Frank Luna (C) 2015 All Rights Reserved.
 //***************************************************************************************
 
-#include "../../Common/d3dApp.h"
-#include "../../Common/MathHelper.h"
-#include "../../Common/UploadBuffer.h"
-#include "../../Common/GeometryGenerator.h"
-#include "../../Common/Camera.h"
+#include "../Common/d3dApp.h"
+#include "../Common/MathHelper.h"
+#include "../Common/UploadBuffer.h"
+#include "../Common/GeometryGenerator.h"
+#include "../Common/Camera.h"
 #include "FrameResource.h"
 #include "CubeRenderTarget.h"
 
@@ -570,10 +570,10 @@ void DynamicCubeMapApp::LoadTextures()
 
     std::vector<std::wstring> texFilenames =
     {
-        L"../../Textures/bricks2.dds",
-        L"../../Textures/tile.dds",
-        L"../../Textures/white1x1.dds",
-        L"../../Textures/grasscube1024.dds"
+        L"../Textures/bricks2.dds",
+        L"../Textures/tile.dds",
+        L"../Textures/white1x1.dds",
+        L"../Textures/grasscube1024.dds"
     };
 
     for (int i = 0; i < (int)texNames.size(); ++i)
