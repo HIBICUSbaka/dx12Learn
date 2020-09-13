@@ -33,6 +33,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ep14_BasicTessellation", "e
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ep14_BezierPatch", "ep14_BezierPatch\ep14_BezierPatch.vcxproj", "{A04E3EB1-F8A5-423C-B53A-28A36384F38F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ep15", "ep15\ep15.vcxproj", "{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -223,6 +225,18 @@ Global
 		{A04E3EB1-F8A5-423C-B53A-28A36384F38F}.Release|x64.Build.0 = Release|x64
 		{A04E3EB1-F8A5-423C-B53A-28A36384F38F}.Release|x86.ActiveCfg = Release|Win32
 		{A04E3EB1-F8A5-423C-B53A-28A36384F38F}.Release|x86.Build.0 = Release|Win32
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Debug|Win32.Build.0 = Debug|Win32
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Debug|x64.ActiveCfg = Debug|x64
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Debug|x64.Build.0 = Debug|x64
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Debug|x86.ActiveCfg = Debug|Win32
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Debug|x86.Build.0 = Debug|Win32
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Release|Win32.ActiveCfg = Release|Win32
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Release|Win32.Build.0 = Release|Win32
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Release|x64.ActiveCfg = Release|x64
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Release|x64.Build.0 = Release|x64
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Release|x86.ActiveCfg = Release|Win32
+		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
