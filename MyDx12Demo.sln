@@ -35,6 +35,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ep14_BezierPatch", "ep14_Be
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ep15", "ep15\ep15.vcxproj", "{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ep16", "ep16\ep16.vcxproj", "{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -237,6 +239,18 @@ Global
 		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Release|x64.Build.0 = Release|x64
 		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Release|x86.ActiveCfg = Release|Win32
 		{D1098EC8-FDF5-4DE9-B5D0-6B733E500253}.Release|x86.Build.0 = Release|Win32
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Debug|Win32.Build.0 = Debug|Win32
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Debug|x64.ActiveCfg = Debug|x64
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Debug|x64.Build.0 = Debug|x64
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Debug|x86.ActiveCfg = Debug|Win32
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Debug|x86.Build.0 = Debug|Win32
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Release|Win32.ActiveCfg = Release|Win32
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Release|Win32.Build.0 = Release|Win32
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Release|x64.ActiveCfg = Release|x64
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Release|x64.Build.0 = Release|x64
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Release|x86.ActiveCfg = Release|Win32
+		{DB1394C6-19E2-4FC7-B7BA-FD4D7AFABADE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
