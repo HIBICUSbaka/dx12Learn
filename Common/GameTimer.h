@@ -5,6 +5,8 @@
 #ifndef GAMETIMER_H
 #define GAMETIMER_H
 
+// 可以对细粒度的事件同样实例化作为一个定时器
+// 例如到达五秒后出发某某事件
 class GameTimer
 {
 public:
@@ -20,15 +22,15 @@ public:
 
 private:
 	double mSecondsPerCount;
-	double mDeltaTime;
+	double mDeltaTime;		// 帧间差值(以秒为单位)
 
-	__int64 mBaseTime;
-	__int64 mPausedTime;
-	__int64 mStopTime;
-	__int64 mPrevTime;
-	__int64 mCurrTime;
+	__int64 mBaseTime;		// 游戏程序开始时刻时间计数
+	__int64 mPausedTime;	// 所有暂停时间计数之和
+	__int64 mStopTime;		// 游戏程序暂停时刻时间计数
+	__int64 mPrevTime;		// 上一帧时间计数
+	__int64 mCurrTime;		// 本帧时间计数
 
-	bool mStopped;
+	bool mStopped;			// 是否处于暂停状态
 };
 
 #endif // GAMETIMER_H

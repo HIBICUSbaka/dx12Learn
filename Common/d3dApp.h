@@ -91,6 +91,7 @@ protected:
 	// Used to keep track of the 揹elta-time?and game time (?.4).
 	GameTimer mTimer;
 
+	// DXGI1.4 可以枚举 WARP 适配器
 	Microsoft::WRL::ComPtr<IDXGIFactory4> mdxgiFactory;
 	Microsoft::WRL::ComPtr<IDXGISwapChain> mSwapChain;
 	Microsoft::WRL::ComPtr<ID3D12Device> md3dDevice;
@@ -103,15 +104,15 @@ protected:
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> mCommandList;
 
 	static const int SwapChainBufferCount = 2;
-	int mCurrBackBuffer = 0;
+	int mCurrBackBuffer = 0;			// 用于记录后台缓冲区索引
 	Microsoft::WRL::ComPtr<ID3D12Resource> mSwapChainBuffer[SwapChainBufferCount];
 	Microsoft::WRL::ComPtr<ID3D12Resource> mDepthStencilBuffer;
 
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> mRtvHeap;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> mDsvHeap;
 
-	D3D12_VIEWPORT mScreenViewport;
-	D3D12_RECT mScissorRect;
+	D3D12_VIEWPORT mScreenViewport;		// 视口
+	D3D12_RECT mScissorRect;			// 裁剪矩形
 
 	UINT mRtvDescriptorSize = 0;
 	UINT mDsvDescriptorSize = 0;

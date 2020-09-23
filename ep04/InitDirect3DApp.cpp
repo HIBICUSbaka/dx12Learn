@@ -80,6 +80,7 @@ void InitDirect3DApp::Draw(const GameTimer& gt)
 {
 	// Reuse the memory associated with command recording.
 	// We can only reset when the associated command lists have finished execution on the GPU.
+	// 帧开始时重置命令分配器
 	ThrowIfFailed(mDirectCmdListAlloc->Reset());
 
 	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
@@ -95,10 +96,16 @@ void InitDirect3DApp::Draw(const GameTimer& gt)
 	mCommandList->RSSetScissorRects(1, &mScissorRect);
 
 	// Clear the back buffer and depth buffer.
+	// 后两个参数指向多个矩形区域，最后若是 nullptr 则清除整个渲染目标
 	mCommandList->ClearRenderTargetView(CurrentBackBufferView(), Colors::LightSteelBlue, 0, nullptr);
+	// D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL 代表两个都清除
+	// 后两个参数同 ClearRenderTargetView 的后两个参数
 	mCommandList->ClearDepthStencilView(DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 
 	// Specify the buffers we are going to render to.
+	// 传入流水线的后台缓冲视图( 其中一个 RTV )以及 DSV
+	//		第一个参数为希望传入的 RTV 的数量
+	//		第三个参数为 RTV 堆中的描述符是否是连续存放
 	mCommandList->OMSetRenderTargets(1, &CurrentBackBufferView(), true, &DepthStencilView());
 
 	// Indicate a state transition on the resource usage.

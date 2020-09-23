@@ -11,7 +11,7 @@ GameTimer::GameTimer()
 {
 	__int64 countsPerSec;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&countsPerSec);
-	mSecondsPerCount = 1.0 / (double)countsPerSec;
+	mSecondsPerCount = 1.0 / (double)countsPerSec;	// 每 count 若干分之一秒
 }
 
 // Returns the total time elapsed since Reset() was called, NOT counting any
@@ -50,9 +50,11 @@ float GameTimer::TotalTime()const
 
 float GameTimer::DeltaTime()const
 {
+	// 在返回前保持计算精度
 	return (float)mDeltaTime;
 }
 
+// 重设初始状态
 void GameTimer::Reset()
 {
 	__int64 currTime;
@@ -81,7 +83,7 @@ void GameTimer::Start()
 		mPausedTime += (startTime - mStopTime);
 
 		mPrevTime = startTime;
-		mStopTime = 0;
+		mStopTime = 0;			// 重置暂停时刻时间计数
 		mStopped = false;
 	}
 }

@@ -274,6 +274,9 @@ struct Texture
 	Microsoft::WRL::ComPtr<ID3D12Resource> UploadHeap = nullptr;
 };
 
+// 使用宏而非函数，可将 __FILE__ 和 __LINE__ 定位到出问题文件的位置，而非出问题函数的位置
+//      L#x 会将 HRESULT 转换为 Unicode 格式以供阅读
+//      在主体逻辑块( WinMain )里将所有语句包含在 try / catch 里面方便捕获错误
 #ifndef ThrowIfFailed
 #define ThrowIfFailed(x)                                              \
 {                                                                     \
