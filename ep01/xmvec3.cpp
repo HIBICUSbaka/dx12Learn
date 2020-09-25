@@ -97,5 +97,15 @@ int main()
 	cout << "projW + perpW != w  = " << notEqual << endl;
 	cout << "angle               = " << angleDegrees << endl;
 
+	/// <summary>
+	/// 计算向量的分量式乘法
+	/// 多用于计算光照
+	/// (r,g,b) 分量* (0.5,0.75,0.25) = (0.5r,0.75g,0.25b)
+	/// </summary>
+	/// <returns>返回光照的分量式乘法计算结果</returns>
+	/*XMVECTOR XM_CALLCONV XMColorModulate(
+		FXMVECTOR C1, FXMVECTOR C2
+	);*/
+
 	return 0;
 }

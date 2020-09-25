@@ -4,6 +4,8 @@
 
 #pragma once
 
+#define DEBUG
+
 #if defined(DEBUG) || defined(_DEBUG)
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
@@ -112,7 +114,9 @@ protected:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> mDsvHeap;
 
 	D3D12_VIEWPORT mScreenViewport;		// 视口
+										// 设置要显示的区域，可以有多个视口
 	D3D12_RECT mScissorRect;			// 裁剪矩形
+										// 可看作提前进行部分光栅化，除此之外全部剔除
 
 	UINT mRtvDescriptorSize = 0;
 	UINT mDsvDescriptorSize = 0;

@@ -39,6 +39,7 @@ public:
 	UploadBuffer& operator=(const UploadBuffer& rhs) = delete;
 	~UploadBuffer()
 	{
+		// 在析构函数中进行 Unmap 保证实例在生命周期中数据安全
 		if (mUploadBuffer != nullptr)
 			mUploadBuffer->Unmap(0, nullptr);
 
