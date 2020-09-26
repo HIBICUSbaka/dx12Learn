@@ -250,6 +250,7 @@ struct Material
 	int MatCBIndex = -1;
 
 	// Index into SRV heap for diffuse texture.
+	// 漫反射纹理在 SRV 中的索引
 	int DiffuseSrvHeapIndex = -1;
 
 	// Index into SRV heap for normal texture.
@@ -259,6 +260,7 @@ struct Material
 	// Because we have a material constant buffer for each FrameResource, we have to apply the
 	// update to each FrameResource.  Thus, when we modify a material we should set 
 	// NumFramesDirty = gNumFrameResources so that each frame resource gets the update.
+	// 大体思路与渲染过程常量缓冲区差不多
 	int NumFramesDirty = gNumFrameResources;
 
 	// Material constant buffer data used for shading.

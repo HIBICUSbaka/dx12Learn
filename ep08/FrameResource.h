@@ -58,7 +58,8 @@ public:
 
     // We cannot update a cbuffer until the GPU is done processing the commands
     // that reference it.  So each frame needs their own cbuffers.
-   // std::unique_ptr<UploadBuffer<FrameConstants>> FrameCB = nullptr;
+    // std::unique_ptr<UploadBuffer<FrameConstants>> FrameCB = nullptr;
+    // 通过上传缓冲进行更新
     std::unique_ptr<UploadBuffer<PassConstants>> PassCB = nullptr;
     std::unique_ptr<UploadBuffer<MaterialConstants>> MaterialCB = nullptr;
     std::unique_ptr<UploadBuffer<ObjectConstants>> ObjectCB = nullptr;

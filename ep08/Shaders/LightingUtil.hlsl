@@ -6,6 +6,10 @@
 
 #define MaxLights 16
 
+// point 点光源
+// spot 聚光灯光源
+// direction 平行光源
+
 struct Light
 {
     float3 Strength;
@@ -18,19 +22,22 @@ struct Light
 
 struct Material
 {
-    float4 DiffuseAlbedo;
-    float3 FresnelR0;
-    float Shininess;
+    float4 DiffuseAlbedo;   // 漫反射粗糙程度
+    float3 FresnelR0;       // 材质反射光量
+    float Shininess;        // 材质光滑度(1-材质粗糙度)
 };
 
+// 实现线性衰减
 float CalcAttenuation(float d, float falloffStart, float falloffEnd)
 {
     // Linear falloff.
+    // saturate() 钳制输出结果为[0, 1]
     return saturate((falloffEnd-d) / (falloffEnd - falloffStart));
 }
 
 // Schlick gives an approximation to Fresnel reflectance (see pg. 233 "Real-Time Rendering 3rd Ed.").
 // R0 = ( (n-1)/(n+1) )^2, where n is the index of refraction.
+// 根据光向量和表面法线的夹角以及材质特征，近似地计算以 n 为法线反射光的百分比
 float3 SchlickFresnel(float3 R0, float3 normal, float3 lightVec)
 {
     float cosIncidentAngle = saturate(dot(normal, lightVec));
@@ -41,6 +48,7 @@ float3 SchlickFresnel(float3 R0, float3 normal, float3 lightVec)
     return reflectPercent;
 }
 
+// 计算镜面反射和漫反射的光亮总和
 float3 BlinnPhong(float3 lightStrength, float3 lightVec, float3 normal, float3 toEye, Material mat)
 {
     const float m = mat.Shininess * 256.0f;
@@ -49,10 +57,12 @@ float3 BlinnPhong(float3 lightStrength, float3 lightVec, float3 normal, float3 t
     float roughnessFactor = (m + 8.0f)*pow(max(dot(halfVec, normal), 0.0f), m) / 8.0f;
     float3 fresnelFactor = SchlickFresnel(mat.FresnelR0, halfVec, lightVec);
 
+    // 两个向量使用 * 的时候代表分量式相乘
     float3 specAlbedo = fresnelFactor*roughnessFactor;
 
     // Our spec formula goes outside [0,1] range, but we are 
     // doing LDR rendering.  So scale it down a bit.
+    // 按比例进行回调好过一刀切的钳制
     specAlbedo = specAlbedo / (specAlbedo + 1.0f);
 
     return (mat.DiffuseAlbedo.rgb + specAlbedo) * lightStrength;
@@ -146,6 +156,7 @@ float4 ComputeLighting(Light gLights[MaxLights], Material mat,
 #if (NUM_DIR_LIGHTS > 0)
     for(i = 0; i < NUM_DIR_LIGHTS; ++i)
     {
+        // shadowFactor 在阴影章节中进行解读，此处恒为 (1, 1, 1)，此时阴影因子不会产生影响
         result += shadowFactor[i] * ComputeDirectionalLight(gLights[i], mat, normal, toEye);
     }
 #endif

@@ -52,13 +52,13 @@ cbuffer cbPass : register(b2)
     float gFarZ;
     float gTotalTime;
     float gDeltaTime;
-    float4 gAmbientLight;
+    float4 gAmbientLight;       // 环境光
 
     // Indices [0, NUM_DIR_LIGHTS) are directional lights;
     // indices [NUM_DIR_LIGHTS, NUM_DIR_LIGHTS+NUM_POINT_LIGHTS) are point lights;
     // indices [NUM_DIR_LIGHTS+NUM_POINT_LIGHTS, NUM_DIR_LIGHTS+NUM_POINT_LIGHT+NUM_SPOT_LIGHTS)
     // are spot lights for a maximum of MaxLights per object.
-    Light gLights[MaxLights];
+    Light gLights[MaxLights];   // 光源数组
 };
  
 struct VertexIn
@@ -94,14 +94,17 @@ VertexOut VS(VertexIn vin)
 float4 PS(VertexOut pin) : SV_Target
 {
     // Interpolating normal can unnormalize it, so renormalize it.
+    // 法线重新正交化后需要再次归一化
     pin.NormalW = normalize(pin.NormalW);
 
     // Vector from point being lit to eye. 
     float3 toEyeW = normalize(gEyePosW - pin.PosW);
 
 	// Indirect lighting.
+    // 从 pass 中获取间接光照强度
     float4 ambient = gAmbientLight*gDiffuseAlbedo;
 
+    // 直接光照
     const float shininess = 1.0f - gRoughness;
     Material mat = { gDiffuseAlbedo, gFresnelR0, shininess };
     float3 shadowFactor = 1.0f;
