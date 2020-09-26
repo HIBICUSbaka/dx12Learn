@@ -58,6 +58,8 @@ public:
 		std::vector<Vertex> Vertices;
         std::vector<uint32> Indices32;
 
+		// 对32位的索引转换，但默认32位我认为有点浪费内存
+		// 但可能是出于拓展性考虑
         std::vector<uint16>& GetIndices16()
         {
 			if(mIndices16.empty())
@@ -95,7 +97,7 @@ public:
 	///<summary>
 	/// Creates a cylinder parallel to the y-axis, and centered about the origin.  
 	/// The bottom and top radius can vary to form various cone shapes rather than true
-	// cylinders.  The slices and stacks parameters control the degree of tessellation.
+	/// cylinders.  The slices and stacks parameters control the degree of tessellation.
 	///</summary>
     MeshData CreateCylinder(float bottomRadius, float topRadius, float height, uint32 sliceCount, uint32 stackCount);
 

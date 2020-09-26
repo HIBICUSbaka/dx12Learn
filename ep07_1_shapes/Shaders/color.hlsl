@@ -4,11 +4,15 @@
 // Transforms and colors geometry.
 //***************************************************************************************
  
+// 两个不同输入频率的 CBV 输入需要两个根签名
+
+// 无需频繁更新的物体常量缓冲区
 cbuffer cbPerObject : register(b0)
 {
 	float4x4 gWorld; 
 };
 
+// 需要每帧更新的渲染过程常量缓冲区
 cbuffer cbPass : register(b1)
 {
     float4x4 gView;
@@ -45,6 +49,7 @@ VertexOut VS(VertexIn vin)
 	
 	// Transform to homogeneous clip space.
     float4 posW = mul(float4(vin.PosL, 1.0f), gWorld);
+    // 对需要频繁变换的数据做一层剥离，若有需要可以将简单物体的 posW 直接从 CPU 传入
     vout.PosH = mul(posW, gViewProj);
 	
 	// Just pass vertex color into the pixel shader.

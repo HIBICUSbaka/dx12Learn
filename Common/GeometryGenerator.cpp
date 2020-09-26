@@ -401,6 +401,8 @@ GeometryGenerator::MeshData GeometryGenerator::CreateCylinder(float bottomRadius
 		float r = bottomRadius + i*radiusStep;
 
 		// vertices of ring
+		// 每层的首尾顶点的位置坐标相同但纹理坐标不同
+		// 以保证纹理绘制不出错，否则会表现出拉伸效果
 		float dTheta = 2.0f*XM_PI/sliceCount;
 		for(uint32 j = 0; j <= sliceCount; ++j)
 		{
@@ -589,7 +591,7 @@ GeometryGenerator::MeshData GeometryGenerator::CreateGrid(float width, float dep
     //
 	// Create the indices.
 	//
-
+	// 遍历生成索引
 	meshData.Indices32.resize(faceCount*3); // 3 indices per face
 
 	// Iterate over each quad and compute indices.
