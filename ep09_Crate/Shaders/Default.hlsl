@@ -20,15 +20,15 @@
 // Include structures and functions for lighting.
 #include "LightingUtil.hlsl"
 
-Texture2D    gDiffuseMap : register(t0);
-SamplerState gsamLinear  : register(s0);
+Texture2D    gDiffuseMap : register(t0);    // t 为纹理寄存器
+SamplerState gsamLinear  : register(s5);    // s 为采样器寄存器
 
 
 // Constant data that varies per frame.
 cbuffer cbPerObject : register(b0)
 {
     float4x4 gWorld;
-    float4x4 gTexTransform;
+    float4x4 gTexTransform;                 // 用于在 VS 中对纹理坐标进行变换
 };
 
 // Constant data that varies per material.
@@ -103,6 +103,7 @@ VertexOut VS(VertexIn vin)
 
 float4 PS(VertexOut pin) : SV_Target
 {
+    // 使用静态采样器进行采样
     float4 diffuseAlbedo = gDiffuseMap.Sample(gsamLinear, pin.TexC) * gDiffuseAlbedo;
 
     // Interpolating normal can unnormalize it, so renormalize it.
