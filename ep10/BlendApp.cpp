@@ -274,6 +274,7 @@ void BlendApp::Draw(const GameTimer& gt)
 		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 
     // Clear the back buffer and depth buffer.
+	// 使用雾效的颜色进行清除
     mCommandList->ClearRenderTargetView(CurrentBackBufferView(), (float*)&mMainPassCB.FogColor, 0, nullptr);
     mCommandList->ClearDepthStencilView(DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 
@@ -288,11 +289,14 @@ void BlendApp::Draw(const GameTimer& gt)
 	auto passCB = mCurrFrameResource->PassCB->Resource();
 	mCommandList->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
 
+	// 先绘制不透明物体
     DrawRenderItems(mCommandList.Get(), mRitemLayer[(int)RenderLayer::Opaque]);
 
+	// 切换管线绘制需要进行 alpha 测试的物体
 	mCommandList->SetPipelineState(mPSOs["alphaTested"].Get());
 	DrawRenderItems(mCommandList.Get(), mRitemLayer[(int)RenderLayer::AlphaTested]);
 
+	// 切换管线绘制需要进行透明混合的物体
 	mCommandList->SetPipelineState(mPSOs["transparent"].Get());
 	DrawRenderItems(mCommandList.Get(), mRitemLayer[(int)RenderLayer::Transparent]);
 
@@ -655,10 +659,11 @@ void BlendApp::BuildShadersAndInputLayout()
 	const D3D_SHADER_MACRO alphaTestDefines[] =
 	{
 		"FOG", "1",
-		"ALPHA_TEST", "1",
+		"ALPHA_TEST", "1",	// 在此处定义宏 ALPHA_TEST 以进行 alpha 测试
 		NULL, NULL
 	};
 
+	// 可以使用不同的宏选项来达成不一样的效果，更高效地复用代码
 	mShaders["standardVS"] = d3dUtil::CompileShader(L"Shaders\\Default.hlsl", nullptr, "VS", "vs_5_0");
 	mShaders["opaquePS"] = d3dUtil::CompileShader(L"Shaders\\Default.hlsl", defines, "PS", "ps_5_0");
 	mShaders["alphaTestedPS"] = d3dUtil::CompileShader(L"Shaders\\Default.hlsl", alphaTestDefines, "PS", "ps_5_0");
@@ -870,6 +875,7 @@ void BlendApp::BuildPSOs()
 
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC transparentPsoDesc = opaquePsoDesc;
 
+	// 根据透明度进行混合
 	D3D12_RENDER_TARGET_BLEND_DESC transparencyBlendDesc;
 	transparencyBlendDesc.BlendEnable = true;
 	transparencyBlendDesc.LogicOpEnable = false;
@@ -895,6 +901,7 @@ void BlendApp::BuildPSOs()
 		reinterpret_cast<BYTE*>(mShaders["alphaTestedPS"]->GetBufferPointer()),
 		mShaders["alphaTestedPS"]->GetBufferSize()
 	};
+	// 禁用背面剔除，能看到后面的铁丝网
 	alphaTestedPsoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 	ThrowIfFailed(md3dDevice->CreateGraphicsPipelineState(&alphaTestedPsoDesc, IID_PPV_ARGS(&mPSOs["alphaTested"])));
 }
@@ -956,6 +963,7 @@ void BlendApp::BuildRenderItems()
 
     mWavesRitem = wavesRitem.get();
 
+	// 透明层级
 	mRitemLayer[(int)RenderLayer::Transparent].push_back(wavesRitem.get());
 
     auto gridRitem = std::make_unique<RenderItem>();
@@ -969,6 +977,7 @@ void BlendApp::BuildRenderItems()
     gridRitem->StartIndexLocation = gridRitem->Geo->DrawArgs["grid"].StartIndexLocation;
     gridRitem->BaseVertexLocation = gridRitem->Geo->DrawArgs["grid"].BaseVertexLocation;
 
+	// 不透明层级
 	mRitemLayer[(int)RenderLayer::Opaque].push_back(gridRitem.get());
 
 	auto boxRitem = std::make_unique<RenderItem>();

@@ -122,6 +122,8 @@ float4 PS(VertexOut pin) : SV_Target
 	// Discard pixel if texture alpha < 0.1.  We do this test as soon 
 	// as possible in the shader so that we can potentially exit the
 	// shader early, thereby skipping the rest of the shader code.
+    // 判定不透明度是否接近于0，若为负数则进行剪裁
+    // 直接从后续处理中剔除
 	clip(diffuseAlbedo.a - 0.1f);
 #endif
 
@@ -145,8 +147,10 @@ float4 PS(VertexOut pin) : SV_Target
     float4 litColor = ambient + directLight;
 
 #ifdef FOG
+    // 计算雾效距离权重
 	float fogAmount = saturate((distToEye - gFogStart) / gFogRange);
-	litColor = lerp(litColor, gFogColor, fogAmount);
+	// 根据权重进行插值
+    litColor = lerp(litColor, gFogColor, fogAmount);
 #endif
 
     // Common convention to take alpha from diffuse albedo.
