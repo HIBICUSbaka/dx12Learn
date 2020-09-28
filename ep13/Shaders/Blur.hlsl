@@ -31,11 +31,11 @@ RWTexture2D<float4> gOutput : register(u0);
 
 #define N 256
 #define CacheSize (N + 2*gMaxBlurRadius)
-groupshared float4 gCache[CacheSize];
+groupshared float4 gCache[CacheSize];							// 声明线程组内的共享内存
 
 [numthreads(N, 1, 1)]
-void HorzBlurCS(int3 groupThreadID : SV_GroupThreadID,
-				int3 dispatchThreadID : SV_DispatchThreadID)
+void HorzBlurCS(int3 groupThreadID : SV_GroupThreadID,			// 线程组 ID
+				int3 dispatchThreadID : SV_DispatchThreadID)	// 调度线程 ID(全局唯一)
 {
 	// Put in an array for each indexing.
 	float weights[11] = { w0, w1, w2, w3, w4, w5, w6, w7, w8, w9, w10 };
@@ -51,20 +51,24 @@ void HorzBlurCS(int3 groupThreadID : SV_GroupThreadID,
 	if(groupThreadID.x < gBlurRadius)
 	{
 		// Clamp out of bound samples that occur at image borders.
-		int x = max(dispatchThreadID.x - gBlurRadius, 0);
+		int x = max(dispatchThreadID.x - gBlurRadius, 0);					// 左侧索引不会小于0
 		gCache[groupThreadID.x] = gInput[int2(x, dispatchThreadID.y)];
 	}
 	if(groupThreadID.x >= N-gBlurRadius)
 	{
 		// Clamp out of bound samples that occur at image borders.
-		int x = min(dispatchThreadID.x + gBlurRadius, gInput.Length.x-1);
+		int x = min(dispatchThreadID.x + gBlurRadius, gInput.Length.x-1);	// 右侧索引不会大于边界
 		gCache[groupThreadID.x+2*gBlurRadius] = gInput[int2(x, dispatchThreadID.y)];
 	}
 
 	// Clamp out of bound samples that occur at image borders.
+	// 即单个纹素的采样范围不超过输入图形的边界
+	// 左侧因为钳位采样肯定不会发生这种情况
 	gCache[groupThreadID.x+gBlurRadius] = gInput[min(dispatchThreadID.xy, gInput.Length.xy-1)];
 
 	// Wait for all threads to finish.
+	// 相当于将采集到的纹理预加载到组内的共享内存
+	// 等待所有线程加载完成
 	GroupMemoryBarrierWithGroupSync();
 	
 	//
@@ -80,6 +84,7 @@ void HorzBlurCS(int3 groupThreadID : SV_GroupThreadID,
 		blurColor += weights[i+gBlurRadius]*gCache[k];
 	}
 	
+	// 边界线程输出的纹素无法找到对应，故不会进行输出，且写入的数据不会进行任何操作
 	gOutput[dispatchThreadID.xy] = blurColor;
 }
 

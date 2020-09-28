@@ -47,6 +47,7 @@ void BlurFilter::OnResize(UINT newWidth, UINT newHeight)
 		mWidth = newWidth;
 		mHeight = newHeight;
 
+		// 以新的窗口大小构建离屏纹理
 		BuildResources();
 
 		// New resource, so we need new descriptors to that resource.
@@ -61,14 +62,18 @@ void BlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
                          ID3D12Resource* input, 
 						 int blurCount)
 {
+	// 计算权重相关
 	auto weights = CalcGaussWeights(2.5f);
+	// 确定模糊半径
 	int blurRadius = (int)weights.size() / 2;
 
 	cmdList->SetComputeRootSignature(rootSig);
 
+	// 传入模糊核相关内容
 	cmdList->SetComputeRoot32BitConstants(0, 1, &blurRadius, 0);
 	cmdList->SetComputeRoot32BitConstants(0, (UINT)weights.size(), weights.data(), 1);
 
+	// 转换状态准备将之前渲染的 input 拷贝到 mBlurMap0
 	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(input,
 		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_COPY_SOURCE));
 
@@ -78,12 +83,14 @@ void BlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 	// Copy the input (back-buffer in this example) to BlurMap0.
 	cmdList->CopyResource(mBlurMap0.Get(), input);
 	
+	// 再次转换状态，准备对 mBlurMap0 进行计算着色器操作并将结果写入 mBlurMap1
 	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mBlurMap0.Get(),
 		D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ));
 
 	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mBlurMap1.Get(),
 		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
  
+	// 进行若干次模糊操作
 	for(int i = 0; i < blurCount; ++i)
 	{
 		//
@@ -97,9 +104,13 @@ void BlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 
 		// How many groups do we need to dispatch to cover a row of pixels, where each
 		// group covers 256 pixels (the 256 is defined in the ComputeShader).
+		// 计算所需线程组数量
 		UINT numGroupsX = (UINT)ceilf(mWidth / 256.0f);
+		// Dispatch 代表开始计算工作
+		// 建立两个 dispatch 保持流处理器的高效负载
 		cmdList->Dispatch(numGroupsX, mHeight, 1);
 
+		// mBlurMap0 和 mBlurMap1 互换状态准备竖直方向模糊操作
 		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mBlurMap0.Get(),
 			D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
 
@@ -110,6 +121,7 @@ void BlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 		// Vertical Blur pass.
 		//
 
+		// 操作基本与上述内容相同
 		cmdList->SetPipelineState(vertBlurPSO);
 
 		cmdList->SetComputeRootDescriptorTable(1, mBlur1GpuSrv);
@@ -120,6 +132,7 @@ void BlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 		UINT numGroupsY = (UINT)ceilf(mHeight / 256.0f);
 		cmdList->Dispatch(mWidth, numGroupsY, 1);
 
+		// 为下一个循环准备进行水平方向的模糊操作
 		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mBlurMap0.Get(),
 			D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_GENERIC_READ));
 
