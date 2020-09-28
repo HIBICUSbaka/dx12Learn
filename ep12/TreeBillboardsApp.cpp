@@ -701,6 +701,7 @@ void TreeBillboardsApp::BuildShadersAndInputLayouts()
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
     };
 
+	// billboard 的输入布局
 	mTreeSpriteInputLayout =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
@@ -1006,6 +1007,7 @@ void TreeBillboardsApp::BuildPSOs()
 		reinterpret_cast<BYTE*>(mShaders["treeSpriteVS"]->GetBufferPointer()),
 		mShaders["treeSpriteVS"]->GetBufferSize()
 	};
+	// 指定要用的几何着色器
 	treeSpritePsoDesc.GS =
 	{
 		reinterpret_cast<BYTE*>(mShaders["treeSpriteGS"]->GetBufferPointer()),
@@ -1016,6 +1018,7 @@ void TreeBillboardsApp::BuildPSOs()
 		reinterpret_cast<BYTE*>(mShaders["treeSpritePS"]->GetBufferPointer()),
 		mShaders["treeSpritePS"]->GetBufferSize()
 	};
+	// 指定输入的图元类型
 	treeSpritePsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 	treeSpritePsoDesc.InputLayout = { mTreeSpriteInputLayout.data(), (UINT)mTreeSpriteInputLayout.size() };
 	treeSpritePsoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;

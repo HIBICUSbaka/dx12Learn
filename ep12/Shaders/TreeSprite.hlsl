@@ -109,9 +109,11 @@ VertexOut VS(VertexIn vin)
  // We expand each point into a quad (4 vertices), so the maximum number of vertices
  // we output per geometry shader invocation is 4.
 [maxvertexcount(4)]
-void GS(point VertexOut gin[1], 
-        uint primID : SV_PrimitiveID, 
-        inout TriangleStream<GeoOut> triStream)
+void GS(point VertexOut gin[1], 				// 声明输入参数的类型 (point)
+        uint primID : SV_PrimitiveID, 			// 每个被处理的图元唯一不重复的 ID，由输入装配器生成
+        inout TriangleStream<GeoOut> triStream)	// 声明流输出(一系列顶点构成的三角形带)
+		// 输出三角形列表或者线条列表则要使用内置函数 RestartStrip 相当于对三角形带进行分割
+		// 每三个顶点调用一次即可形成三角形列表
 {	
 	//
 	// Compute the local coordinate system of the sprite relative to the world
@@ -130,6 +132,7 @@ void GS(point VertexOut gin[1],
 	float halfWidth  = 0.5f*gin[0].SizeW.x;
 	float halfHeight = 0.5f*gin[0].SizeW.y;
 	
+	// 根据输入的顶点数据扩充成一个四边形
 	float4 v[4];
 	v[0] = float4(gin[0].CenterW + halfWidth*right - halfHeight*up, 1.0f);
 	v[1] = float4(gin[0].CenterW + halfWidth*right + halfHeight*up, 1.0f);
