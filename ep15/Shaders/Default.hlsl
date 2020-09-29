@@ -37,6 +37,8 @@ Texture2D gDiffuseMap[4] : register(t0);
 
 // Put in space1, so the texture array does not overlap with these resources.  
 // The texture array will occupy registers t0, t1, ..., t3 in space0. 
+// gDiffuseMap 会占用 t0 t1 t2 t3 若之后要继续存储资源要从 t4 开始
+// 若使用 space1 换一个资源维度则不必考虑这些问题
 StructuredBuffer<MaterialData> gMaterialData : register(t0, space1);
 
 
