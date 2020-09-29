@@ -87,6 +87,8 @@ struct PatchTess
 	float InsideTess[2] : SV_InsideTessFactor;
 };
 
+// Represents an array of control points that are available to the hull shader as inputs
+// 常量外壳着色器进行计算曲面细分银子并做输出
 PatchTess ConstantHS(InputPatch<VertexOut, 4> patch, uint patchID : SV_PrimitiveID)
 {
 	PatchTess pt;
@@ -94,6 +96,7 @@ PatchTess ConstantHS(InputPatch<VertexOut, 4> patch, uint patchID : SV_Primitive
 	float3 centerL = 0.25f*(patch[0].PosL + patch[1].PosL + patch[2].PosL + patch[3].PosL);
 	float3 centerW = mul(float4(centerL, 1.0f), gWorld).xyz;
 	
+	// 根据距离判断相应的曲面细分因子
 	float d = distance(centerW, gEyePosW);
 
 	// Tessellate the patch based on distance from the eye such that
@@ -122,20 +125,22 @@ struct HullOut
 	float3 PosL : POSITION;
 };
 
-[domain("quad")]
-[partitioning("integer")]
-[outputtopology("triangle_cw")]
-[outputcontrolpoints(4)]
-[patchconstantfunc("ConstantHS")]
-[maxtessfactor(64.0f)]
+[domain("quad")]							// 声明面片的类型( quad 为四边形面片)
+[partitioning("integer")]					// 指定曲面细分的模式(还有fractional_even fractional_odd)
+[outputtopology("triangle_cw")]				// 指定细分出的三角形的绕序( cw ccw )
+[outputcontrolpoints(4)]					// 单个外壳着色器执行的次数
+[patchconstantfunc("ConstantHS")]			// 指定常量外壳着色器的函数字符串
+[maxtessfactor(64.0f)]						// 曲面细分因子的上限
 HullOut HS(InputPatch<VertexOut, 4> p, 
-           uint i : SV_OutputControlPointID,
+           uint i : SV_OutputControlPointID,	// 外壳着色器处理并输出的控制点索引
            uint patchId : SV_PrimitiveID)
 {
 	HullOut hout;
 	
+	// 此处直接进行值传递，也称传递着色器
 	hout.PosL = p[i].PosL;
 	
+	// 输出控制点
 	return hout;
 }
 
@@ -159,8 +164,10 @@ DomainOut DS(PatchTess patchTess,
 	float3 p  = lerp(v1, v2, uv.y); 
 	
 	// Displacement mapping
+	// 变换高度
 	p.y = 0.3f*( p.z*sin(p.x) + p.x*cos(p.z) );
 	
+	// 将控制点变换到齐次裁剪空间中
 	float4 posW = mul(float4(p, 1.0f), gWorld);
 	dout.PosH = mul(posW, gViewProj);
 	

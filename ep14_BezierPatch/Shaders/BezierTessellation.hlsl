@@ -175,6 +175,8 @@ DomainOut DS(PatchTess patchTess,
 {
 	DomainOut dout;
 	
+	// 在一个方向上生成贝塞尔曲线后使用另一个方向上同坐标的点再生成一个贝塞尔曲线
+	// 整体表现为一个三次贝塞尔曲面
 	float4 basisU = BernsteinBasis(uv.x);
 	float4 basisV = BernsteinBasis(uv.y);
 
