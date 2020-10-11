@@ -46,6 +46,7 @@ Texture2D gDiffuseMap[7] : register(t0);
 
 // Put in space1, so the texture array does not overlap with these resources.  
 // The texture array will occupy registers t0, t1, ..., t6 in space0. 
+// 结构化缓冲区
 StructuredBuffer<InstanceData> gInstanceData : register(t0, space1);
 StructuredBuffer<MaterialData> gMaterialData : register(t1, space1);
 
@@ -136,6 +137,7 @@ VertexOut VS(VertexIn vin, uint instanceID : SV_InstanceID)
 float4 PS(VertexOut pin) : SV_Target
 {
 	// Fetch the material data.
+    // 此前由常量缓冲区提供的数据全部变为由实例缓冲区提供
 	MaterialData matData = gMaterialData[pin.MatIndex];
 	float4 diffuseAlbedo = matData.DiffuseAlbedo;
     float3 fresnelR0 = matData.FresnelR0;

@@ -696,6 +696,7 @@ void PickingApp::BuildPSOs()
 	// still pass the depth test.  This is needed because we redraw the picked triangle with a
 	// different material to highlight it.  If we do not use <=, the triangle will fail the 
 	// depth test the 2nd time we try and draw it.
+	// ·ÀÖ¹Éî¶È²âÊÔÊ§°Ü
 	highlightPsoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
 	// Standard transparency blending.

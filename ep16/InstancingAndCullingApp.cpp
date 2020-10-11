@@ -361,6 +361,7 @@ void InstancingAndCullingApp::AnimateMaterials(const GameTimer& gt)
 	
 }
 
+// 在这里更新实例缓冲区
 void InstancingAndCullingApp::UpdateInstanceData(const GameTimer& gt)
 {
 	XMMATRIX view = mCamera.GetView();
@@ -955,9 +956,12 @@ void InstancingAndCullingApp::DrawRenderItems(ID3D12GraphicsCommandList* cmdList
 
 		// Set the instance buffer to use for this render-item.  For structured buffers, we can bypass 
 		// the heap and set as a root descriptor.
+		// 通过根签名传递实力缓冲区的数值，使其能在着色器中根据索引进行调用
 		auto instanceBuffer = mCurrFrameResource->InstanceBuffer->Resource();
 		mCommandList->SetGraphicsRootShaderResourceView(0, instanceBuffer->GetGPUVirtualAddress());
 
+		// DrawIndexedInstanced 方法的第二个参数为所需绘制实例的数量
+		// 会调用对应数量的绘制
         cmdList->DrawIndexedInstanced(ri->IndexCount, ri->InstanceCount, ri->StartIndexLocation, ri->BaseVertexLocation, 0);
     }
 }
