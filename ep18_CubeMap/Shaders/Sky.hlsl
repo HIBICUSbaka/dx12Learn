@@ -23,6 +23,7 @@ VertexOut VS(VertexIn vin)
 	VertexOut vout;
 
 	// Use local vertex position as cubemap lookup vector.
+	// 使用局部顶点位置作为立方体图的查找向量
 	vout.PosL = vin.PosL;
 	
 	// Transform to world space.
@@ -32,6 +33,7 @@ VertexOut VS(VertexIn vin)
 	posW.xyz += gEyePosW;
 
 	// Set z = w so that z/w = 1 (i.e., skydome always on far plane).
+	// z 分量的值区间为[0,1]，可以保证天空取景永远处于远端
 	vout.PosH = mul(posW, gViewProj).xyww;
 	
 	return vout;

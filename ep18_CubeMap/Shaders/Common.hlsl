@@ -30,6 +30,7 @@ struct MaterialData
 	uint     MatPad2;
 };
 
+// HLSL中立方体纹理使用 TextureCube 表示
 TextureCube gCubeMap : register(t0);
 
 // An array of textures, which is only supported in shader model 5.1+.  Unlike Texture2DArray, the textures
