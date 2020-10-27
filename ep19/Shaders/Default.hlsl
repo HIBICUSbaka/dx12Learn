@@ -23,7 +23,7 @@ struct VertexIn
 	float3 PosL    : POSITION;
     float3 NormalL : NORMAL;
 	float2 TexC    : TEXCOORD;
-	float3 TangentU : TANGENT;
+	float3 TangentU : TANGENT;		// 切线向量（切线空间中）
 };
 
 struct VertexOut
@@ -31,7 +31,7 @@ struct VertexOut
 	float4 PosH    : SV_POSITION;
     float3 PosW    : POSITION;
     float3 NormalW : NORMAL;
-	float3 TangentW : TANGENT;
+	float3 TangentW : TANGENT;		// 切线向量（世界空间中）
 	float2 TexC    : TEXCOORD;
 };
 
@@ -74,7 +74,9 @@ float4 PS(VertexOut pin) : SV_Target
 	// Interpolating normal can unnormalize it, so renormalize it.
     pin.NormalW = normalize(pin.NormalW);
 	
+	// 对法线贴图进行采样
 	float4 normalMapSample = gTextureMaps[normalMapIndex].Sample(gsamAnisotropicWrap, pin.TexC);
+	// 通过切线向量与法线向量求取副切线向量，构建切线坐标
 	float3 bumpedNormalW = NormalSampleToWorldSpace(normalMapSample.rgb, pin.NormalW, pin.TangentW);
 
 	// Uncomment to turn off normal mapping.

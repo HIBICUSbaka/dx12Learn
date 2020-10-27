@@ -87,6 +87,7 @@ cbuffer cbPass : register(b1)
 
 //---------------------------------------------------------------------------------------
 // Transforms a normal map sample to world space.
+// 将法线贴图菜价道德样本变换至世界空间
 //---------------------------------------------------------------------------------------
 float3 NormalSampleToWorldSpace(float3 normalMapSample, float3 unitNormalW, float3 tangentW)
 {
@@ -95,6 +96,7 @@ float3 NormalSampleToWorldSpace(float3 normalMapSample, float3 unitNormalW, floa
 
 	// Build orthonormal basis.
 	float3 N = unitNormalW;
+    // 插值后可能不再正交，此处对其进行正交正规化，详见书 p.585
 	float3 T = normalize(tangentW - dot(tangentW, N)*N);
 	float3 B = cross(N, T);
 
