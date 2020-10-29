@@ -101,6 +101,7 @@ float4 PS(VertexOut pin) : SV_Target
     float4 ambient = gAmbientLight*diffuseAlbedo;
 
     // Only the first light casts a shadow.
+    // 计算阴影因子
     float3 shadowFactor = float3(1.0f, 1.0f, 1.0f);
     shadowFactor[0] = CalcShadowFactor(pin.ShadowPosH);
 
