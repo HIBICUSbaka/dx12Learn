@@ -42,6 +42,7 @@ VertexOut VS(VertexIn vin)
 	MaterialData matData = gMaterialData[gMaterialIndex];
 	
     // Assumes nonuniform scaling; otherwise, need to use inverse-transpose of world matrix.
+    // 对其实施等比缩放
     vout.NormalW = mul(vin.NormalL, (float3x3)gWorld);
 	vout.TangentW = mul(vin.TangentU, (float3x3)gWorld);
 
@@ -80,6 +81,7 @@ float4 PS(VertexOut pin) : SV_Target
     // NOTE: We use interpolated vertex normal for SSAO.
 
     // Write normal in view space coordinates
+    // 此处返回法线的观察空间坐标，此处使用浮点渲染目标
     float3 normalV = mul(pin.NormalW, (float3x3)gView);
     return float4(normalV, 0.0f);
 }

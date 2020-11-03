@@ -127,6 +127,8 @@ float4 PS(VertexOut pin) : SV_Target
 		// normal or depth), then we assume we are sampling across a discontinuity.
 		// We discard such samples from the blur.
 		//
+
+        // 检测中心值和邻近值，若差距过大则此处为边缘 
 	
 		if( dot(neighborNormal, centerNormal) >= 0.8f &&
 		    abs(neighborDepth - centerDepth) <= 0.2f )

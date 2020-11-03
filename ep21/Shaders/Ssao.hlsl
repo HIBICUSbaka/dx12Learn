@@ -61,6 +61,8 @@ VertexOut VS(uint vid : SV_VertexID)
 
     vout.TexC = gTexCoords[vid];
 
+	// 将已经渲染好的 SSAO 图从屏幕空间变换到 NDC 空间在变换到观察空间
+	// 准备进行遮蔽率的向量运算
     // Quad covering screen in NDC space.
     vout.PosH = float4(2.0f*vout.TexC.x - 1.0f, 1.0f - 2.0f*vout.TexC.y, 0.0f, 1.0f);
  
@@ -122,6 +124,7 @@ float4 PS(VertexOut pin) : SV_Target
 	// r -- a potential occluder that might occlude p.
 
 	// Get viewspace normal and z-coord of this pixel.  
+	// 以类似等比三角形的方式实现，见书 p.629
     float3 n = normalize(gNormalMap.SampleLevel(gsamPointClamp, pin.TexC, 0.0f).xyz);
     float pz = gDepthMap.SampleLevel(gsamDepthMap, pin.TexC, 0.0f).r;
     pz = NdcDepthToViewDepth(pz);
